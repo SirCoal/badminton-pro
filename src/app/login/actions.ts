@@ -44,3 +44,14 @@ export async function signInWithGoogle(): Promise<void> {
   if (error) {
     redirect(`/login?error=${encodeURIComponent(error.message)}`)
   }
+  if (data.url) {
+    redirect(data.url)
+  }
+  redirect('/login?error=Could not start Google login.')
+}
+
+export async function signOut(): Promise<void> {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/login')
+}
